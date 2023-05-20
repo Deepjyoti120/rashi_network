@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rashi_network/payment_test.dart';
 import 'package:rashi_network/services/api/api_access.dart';
 import 'package:rashi_network/ui/custom/custom_text_form.dart';
@@ -6,6 +7,9 @@ import 'package:rashi_network/ui/theme/buttons/buttons.dart';
 import 'package:rashi_network/ui/theme/text.dart';
 import 'package:rashi_network/utils/design_colors.dart';
 import 'package:rashi_network/views/wallet/wallet_payment_confirmation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../login_astrologer/document/astrologer_details.dart';
 
 class Wallet extends StatefulWidget {
   const Wallet({super.key});
@@ -15,6 +19,36 @@ class Wallet extends StatefulWidget {
 }
 
 class _WalletState extends State<Wallet> {
+  bool load = false;
+  String loginstatus = "0";
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    viewProfile();
+  }
+
+  // view Profile getdata
+  viewProfile()async{
+    setState(() {
+      load = true;
+    });
+    await ApiAccess.RequestUserProfile();
+    sharedprefences();
+    setState(() {
+      load = false;
+    });
+  }
+  
+  
+  // get loginstatus..
+  sharedprefences() async{
+    SharedPreferences p = await SharedPreferences.getInstance();
+    loginstatus = p.getString("loginstatus").toString();
+    setState(() {});
+  }
+  
   @override
   Widget build(BuildContext context) {
     final paymentText = TextEditingController();
@@ -69,28 +103,49 @@ class _WalletState extends State<Wallet> {
                 width: double.infinity,
                 child: DesignButtons(
                   onPressed: () async {
-                    ApiAccess()
-                        .walletAddMoney(paymentText.text.trim())
-                        .then((value) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => InstamojoPaymentScreen(
-                              paymentRequestId: '',
-                              paymentRequestUrl: value,
-                            ),
-                          )).then((value) {
-                        if (value) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const WalletPaymentConfirmation(),
-                            ),
-                          );
+                    if(loginstatus != "null" || loginstatus != ""){
+                      if(loginstatus == "1"){
+                        //   ApiAccess.Requestaddwallet(context,paymentText.text.trim());
+                        if(paymentText.text.trim().isNotEmpty){
+
+                          if(int.parse(paymentText.text.trim()) < 10){
+                            Fluttertoast.showToast(msg: "Please enter at least 10 rs");
+                          }else{
+                            ApiAccess().walletAddMoney(paymentText.text.trim())
+                                .then((value) {
+                                  print("value${value}");
+                                  if(value.toString() != "error"){
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => InstamojoPaymentScreen(
+                                            paymentRequestId: '',
+                                            paymentRequestUrl: value,
+                                          ),
+                                        )).then((value) {
+                                      if (value) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                            const WalletPaymentConfirmation(),
+                                          ),
+                                        );
+                                      }
+                                    });
+                                  }else{
+                                    Fluttertoast.showToast(msg: "Error");
+                                  }
+
+                            });
+                          }
+
                         }
-                      });
-                    });
+                      }else{
+                        showAlertDialog(context);
+                      }
+                    }else{}
+
                   },
                   textLabel: 'Add Money',
                   isTappedNotifier: ValueNotifier(false),
@@ -200,4 +255,37 @@ class _WalletState extends State<Wallet> {
       ),
     );
   }
+
+     showAlertDialog(BuildContext context) {
+
+      // set up the buttons
+      Widget okButton = TextButton(
+        child: Text("OK"),
+        onPressed:  () {
+          Navigator.pop(context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AstrologerDetailsForm(),
+              ));
+
+        },
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Please complete your profile."),
+        actions: [
+          okButton,
+        ],
+      );
+
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+
 }

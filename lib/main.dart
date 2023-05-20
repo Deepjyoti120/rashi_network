@@ -13,4 +13,4 @@ Future main() async {
   await Hive.openBox('settings');
   runApp(const ProviderScope(child: App()));
 }
-/// remove me `Just for Checking New Push 01` 
+/// remove me `Just for Checking New Push`

@@ -24,20 +24,18 @@ class AppDrawer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appStateauto = ref.watch(appStateautoDispose);
-    final appState = ref.watch(appStateRef);
-
     return Drawer(
       child: Column(
         children: [
           UserAccountsDrawerHeader(
             decoration: const BoxDecoration(color: Colors.white),
-            accountName: DesignText(
-              appState.userReports.user!.name!,
+            accountName: const DesignText(
+              'Depjyoti Baishya',
               fontSize: 15,
               fontWeight: 500,
             ),
-            accountEmail: DesignText(
-              '+91 ${appState.userReports.user!.mobile}',
+            accountEmail: const DesignText(
+              '+91 88118 90749',
               fontSize: 15,
               fontWeight: 500,
             ),

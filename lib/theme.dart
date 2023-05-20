@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 var darkTheme = ThemeData(
     // fontFamily: GoogleFonts.montserrat().fontFamily,
@@ -17,7 +16,7 @@ var darkTheme = ThemeData(
 var theme = ThemeData(
   // backgroundColor: DesignColor.dszBackground,
   // scaffoldBackgroundColor: Colors.white,
-  fontFamily: GoogleFonts.poppins().fontFamily,
+  // fontFamily: GoogleFonts.quicksand().fontFamily,
   brightness: Brightness.light,
   appBarTheme: const AppBarTheme(
     backgroundColor: Colors.white,

@@ -33,7 +33,6 @@ class _InstamojoPaymentScreenState extends State<InstamojoPaymentScreen> {
   @override
   void initState() {
     super.initState();
-
     // #docregion platform_features
     late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
@@ -65,7 +64,7 @@ class _InstamojoPaymentScreenState extends State<InstamojoPaymentScreen> {
           // },
           onNavigationRequest: (NavigationRequest request) async {
             // Check if the URL is your redirect_url
-            debugPrint(request.url);
+            print("request"+request.url);
             if (request.url.startsWith('thetaramandal.com/user/wallet/payments')) {
               //https://thetaramandal.com/user/wallet/payments/success/?orderId=191
               // await ApiAccess()

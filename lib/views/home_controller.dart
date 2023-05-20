@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:rashi_network/services/api/api_access.dart';
 import 'package:rashi_network/ui/custom/bottom_bar.dart';
+import 'package:rashi_network/ui/widgets/coming_soon.dart';
 import 'package:rashi_network/utils/assets_names.dart';
 import 'package:rashi_network/utils/design_colors.dart';
 import 'package:rashi_network/viewmodel/darkmode_state.dart';
@@ -24,14 +25,6 @@ class HomeController extends ConsumerStatefulWidget {
 }
 
 class _HomeControllerState extends ConsumerState<HomeController> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ApiAccess().getProfile(ref);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final darkMode = ref.watch(darkModeRef);
@@ -74,52 +67,40 @@ class _HomeControllerState extends ConsumerState<HomeController> {
       ),
     );
   }
-///  done
+
   Widget _buildBottomBar(DarkMode darkMode, AppState appStateauto) {
     return CustomBottomBar(
       backgroundColor: darkMode.isDark ? DesignColor.blackCard : null,
       bottomColor: darkMode.isDark ? DesignColor.blackCard : null,
       containerHeight: 60,
       iconSize: 18,
-      itemCornerRadius: 8,
       selectedIndex: appStateauto.currentIndex,
       showElevation: true,
+      itemCornerRadius: 8,
       curve: Curves.linear,
       animationDuration: const Duration(milliseconds: 400),
       onItemSelected: (index) => appStateauto.currentIndex = index,
       items: <BottomBarItem>[
         BottomBarItem(
-          icon: Icon(
-            PhosphorIcons.regular.house,
-            size: 22,
-          ),
+          icon: Icon(PhosphorIcons.regular.house),
           title: const Text('Home'),
           activeColor: DesignColor.darkTeal,
           inactiveColor: DesignColor.darkGrey,
         ),
         BottomBarItem(
-          icon: Icon(
-            PhosphorIcons.regular.chat,
-            size: 22,
-          ),
+          icon: Icon(PhosphorIcons.regular.chat),
           title: const Text('Chat'),
           activeColor: DesignColor.darkTeal,
           inactiveColor: DesignColor.darkGrey,
         ),
         BottomBarItem(
           activeColor: DesignColor.darkTeal,
-          icon: Icon(
-            PhosphorIcons.regular.phone,
-            size: 22,
-          ),
+          icon: Icon(PhosphorIcons.regular.phone),
           title: const Text('Call'),
           inactiveColor: DesignColor.darkGrey,
         ),
         BottomBarItem(
-          icon: Icon(
-            PhosphorIcons.regular.shoppingCart,
-            size: 22,
-          ),
+          icon: Icon(PhosphorIcons.regular.shoppingCart),
           title: const Text('Shop'),
           activeColor: DesignColor.darkTeal,
           inactiveColor: DesignColor.darkGrey,
