@@ -1,0 +1,35 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_69_6366)" filter="url(#filter0_d_69_6366)">
+<g filter="url(#filter1_d_69_6366)">
+<path d="M39.3 10H80.7L110 39.3V80.7L80.7 110H39.3L10 80.7V39.3L39.3 10Z" fill="#F81414"/>
+<path d="M39.3 10H80.7L110 39.3V80.7L80.7 110H39.3L10 80.7V39.3L39.3 10Z" stroke="#F81414" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path d="M60 40V60" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M60 80H60.05" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<filter id="filter0_d_69_6366" x="-4" y="0" width="128" height="128" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_69_6366"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_69_6366" result="shape"/>
+</filter>
+<filter id="filter1_d_69_6366" x="-15" y="-5" width="150" height="150" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="10"/>
+<feGaussianBlur stdDeviation="12"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.975 0 0 0 0 0.540313 0 0 0 0 0.540313 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_69_6366"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_69_6366" result="shape"/>
+</filter>
+<clipPath id="clip0_69_6366">
+<rect width="120" height="120" fill="white"/>
+</clipPath>
+</defs>
+</svg>
