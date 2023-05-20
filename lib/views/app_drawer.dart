@@ -25,7 +25,6 @@ class AppDrawer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appStateauto = ref.watch(appStateautoDispose);
     final appState = ref.watch(appStateRef);
-
     return Drawer(
       child: Column(
         children: [
