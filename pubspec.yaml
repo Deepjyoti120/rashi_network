@@ -68,6 +68,8 @@ dependencies:
   # flutter_html: ^2.2.1
   # flutter_widget_from_html: ^0.10.0
   html: ^0.15.3
+  shared_preferences: ^2.0.15
+  http: any
   
 
 dev_dependencies:
