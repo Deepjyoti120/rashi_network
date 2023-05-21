@@ -36,6 +36,13 @@ class MoreForYouCardGrid extends StatelessWidget {
             MaterialPageRoute(builder: (context) => const PremiumKundali()),
           );
           break;
+        case 3:
+          // Navigator.push(
+          //   context,
+          //   // MaterialPageRoute(builder: (context) => const ComingSoon()),
+          //   MaterialPageRoute(builder: (context) => const PremiumKundali()),
+          // );
+          break;
         default:
           break;
       }
@@ -43,13 +50,13 @@ class MoreForYouCardGrid extends StatelessWidget {
 
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+        crossAxisCount: 4,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: 0.6,
+        childAspectRatio: 0.48,
       ),
       shrinkWrap: true,
-      itemCount: 3,
+      itemCount: 4,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         final data = MoreForYouModel.items[index];
@@ -58,7 +65,7 @@ class MoreForYouCardGrid extends StatelessWidget {
           child: Column(
             children: [
               DesignContainer(
-                height: 93,
+                height: 80,
                 clipBehavior: Clip.antiAlias,
                 bordered: true,
                 allPadding: 0,

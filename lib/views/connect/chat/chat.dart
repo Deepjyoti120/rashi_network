@@ -64,7 +64,7 @@ class _ChatState extends ConsumerState<Chat> {
                             index: index, astrologerModel: livedata),
                       ),
                     );
-                    print(livedata.photo);
+                    // print(livedata.photo);
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 12),

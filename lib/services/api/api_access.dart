@@ -1,14 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:rashi_network/payment_test.dart';
 import 'package:rashi_network/utils/constants.dart';
 import 'package:rashi_network/viewmodel/model/astrologer_model.dart';
 import 'package:rashi_network/viewmodel/model/banner_model.dart';
@@ -16,11 +10,8 @@ import 'package:rashi_network/viewmodel/model/free_kundali.dart';
 import 'package:rashi_network/viewmodel/model/latest_blogs_model.dart';
 import 'package:rashi_network/viewmodel/model/live_astrologer.dart';
 import 'package:rashi_network/viewmodel/model/pr_release_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
-
-import '../../viewmodel/model/PaymnetModel.dart';
+import 'package:rashi_network/viewmodel/model/user_reports.dart';
+import 'package:rashi_network/viewmodel/provider/appstate.dart';
 
 typedef OnUploadProgress = void Function(double progressValue);
 final apiProvider = Provider<ApiAccess>((ref) => ApiAccess());
@@ -235,21 +226,18 @@ class ApiAccess {
         options: Options(
           responseType: ResponseType.json,
           headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
             'Authorization': 'Bearer $token',
           },
         ),
       );
-      print("res data"+res.data.toString());
-      if (res.data["status"] == true) {
-        print("url>>${res.data["data"]}");
-     //   var data = res.data['data']['astrologer']['data'] as List;
-      return res.data["data"] as String;
-       }
-       return res.data;
+      print(res.data);
+      // if (res.data["status"]) {
+      //   var data = res.data['data']['astrologer']['data'] as List;
+      return res.data as String;
+      // }
+      // return '';
     } on DioError catch (e) {
-      return "error";
+      return '';
     }
   }
 
@@ -274,103 +262,29 @@ class ApiAccess {
     }
   }
 
-
-  // View profile Api
- static  Future<void> RequestUserProfile() async {
-    print("userdata}");
-    SharedPreferences p = await SharedPreferences.getInstance();
-    var token = await storage.read(key: "key");
-   // Utility.ProgressloadingDialog(context, true);
-
-    var request = {};
-
-    print("request ${request}");
-
+  // Live Astrologer
+  // Live Astrologer
+  Future<UserReports> getProfile(WidgetRef ref) async {
     try {
-      var response = await http.post(Uri.parse("${Constants.baseURL}getprofile"),
-
-          body: convert.jsonEncode(request),
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            'Authorization': 'Bearer $token',
-          }
-       );
-      print("jdfhjfdkfk" + response.body);
-      Map<String, dynamic> jsonResponse = convert.jsonDecode(response.body);
-
-      print(jsonResponse);
-      if (jsonResponse['status'] == true) {
-        var data = jsonResponse['data'];
-        if (data != null) {
-          print("data...${data}");
-          var userdata = data['user'];
-          print("userdata...${userdata}");
-
-          if (userdata != null) {
-            print("loginstatus>>${userdata['loginstatus']}");
-            p.setString("loginstatus", userdata['loginstatus'].toString());
-          } else {
-
-          }
-        }
-      } else {
-        Fluttertoast.showToast(msg: jsonResponse['message']);
+      var token = await storage.read(key: "key");
+      Response res = await dio.post(
+        "https://www.thetaramandal.com/api/viewprofile",
+        // data: {"mobile": phone, "nToken": fcmToken},
+        options: Options(responseType: ResponseType.json, headers: {
+          'Authorization': 'Bearer $token',
+        }),
+      );
+      if (res.data["status"]) {
+        var data = res.data['data'];
+        print(data);
+        final appState = ref.read(appStateRef);
+        appState.userReports = UserReports.fromJson(data);
+        return UserReports.fromJson(data);
       }
-    } on SocketException catch(e){
-      Fluttertoast.showToast(msg: e.toString());
+      return UserReports();
+    } on DioError catch (e) {
+      return UserReports();
     }
-    return;
   }
-
-
- /* static  Future<void> Requestaddwallet(BuildContext context,String amount) async {
-    print("userdata}");
-    SharedPreferences p = await SharedPreferences.getInstance();
-    var token = await storage.read(key: "key");
-    // Utility.ProgressloadingDialog(context, true);
-    print("token>${token}");
-    try {
-
-      var headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer 233|QJqxyutr1WOZMhOUAE5JfvfgHrBan74VeqSb7NBf'
-      };
-      var request = http.Request('POST', Uri.parse('${Constants.baseURL}wallet/payments/store'),);
-      request.body = json.encode({
-        "amount": "${amount}"
-      });
-      request.headers.addAll(headers);
-
-      http.StreamedResponse response = await request.send();
-      if (response.statusCode == 200) {
-        var data1 = await response.stream.bytesToString();
-        var jsonResponse = json.decode(data1);
-        print("object${data1}");
-        if (jsonResponse['status'] == true) {
-          var data = jsonResponse['data'];
-          if (data != null) {
-            print("data...${data}");
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => InstamojoPaymentScreen(
-                    paymentRequestId: '',
-                    paymentRequestUrl: data.toString(),
-                  ),
-                ));
-          }
-        } else {
-        }
-        print(await response.stream.bytesToString());
-      }
-      else {
-        print(response.reasonPhrase);
-      }
-    } on SocketException catch(e){
-      Fluttertoast.showToast(msg: e.toString());
-    }
-    return;
-  }*/
+  // Live Astrologer
 }

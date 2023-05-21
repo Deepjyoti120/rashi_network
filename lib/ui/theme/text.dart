@@ -204,7 +204,7 @@ class DesignText extends ConsumerWidget {
       this.textWidthBasis})
       : super(key: key);
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final darkMode = ref.watch(darkModeRef);
     return Text(
       text,
@@ -229,7 +229,9 @@ class DesignText extends ConsumerWidget {
             xMuted: xMuted,
             decoration: decoration,
             wordSpacing: wordSpacing,
-            fontSize: fontSize ?? DesignTextStyle.defaultTextSize[textType],
+            fontSize: fontSize != null
+                ? fontSize! + 1
+                : DesignTextStyle.defaultTextSize[textType],
           ),
       textAlign: textAlign,
       maxLines: maxLines,

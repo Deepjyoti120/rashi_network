@@ -14,6 +14,10 @@ class MoreForYouModel {
       title: 'Premium Kundali & Ask a Question',
       image: AssetsName.imgpremiumkundali,
     ),
+    MoreForYouModelItem(
+      title: 'Puja & Jaap',
+      image: AssetsName.imgPujs,
+    ),
   ];
 }
 
